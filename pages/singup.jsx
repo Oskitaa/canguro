@@ -1,11 +1,10 @@
-import {singup} from '/firebase/client'
+import {singup,auth} from '/firebase/client'
 import { useRouter } from "next/router"
 
 
 export default function Singup(){
     const router = useRouter()
     const onSubmit = (e) => {
-        
         e.preventDefault()
         const { email, password, name} = e.target
         singup(email.value,password.value,name.value)

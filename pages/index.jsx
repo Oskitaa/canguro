@@ -10,7 +10,7 @@ export default function Home(){
         <html>
             <Nav/>
             <Bottom/>
-            <button onClick={()=>{auth.currentUser.sendEmailVerification()}}>User</button>
+            <button onClick={()=>{console.log(auth.currentUser);}}>User</button>
             <button onClick={()=>{auth.signOut()}}>SingOut</button>
             <style jsx>{`
                 html{

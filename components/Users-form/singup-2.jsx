@@ -1,28 +1,87 @@
-import Button from 'react-bootstrap/Button';
-import {Form} from 'react-bootstrap';
+import Button from "react-bootstrap/Button";
+import { Form, Col } from "react-bootstrap";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
+export default function Form2(props) {
+  const days = ["Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"];
+  const horario = ["Mañana", "Tarde", "Noche"];
+  return (
+    <>
+      {" "}
+      <Form.Row>
+        <Form.Group as={Col}>
+          <Form.Label>Tipo :</Form.Label>
+        </Form.Group>
+        <Form.Group as={Col} onChange={props.seltipoUser}>
+          <Form.Check
+            type="radio"
+            label="Canguro"
+            name="tipoUser"
+            value="canguro"
+            id="canguro"
+          />
+          <Form.Check
+            type="radio"
+            label="Progenitor"
+            value="progenitor"
+            name="tipoUser"
+            id="progenitor"
+          />
+        </Form.Group>
+      </Form.Row>
+      <Form.Group controlId="horas">
+        <Form.Label>
+          {props.tipoUser === "canguro" ? "Disponibilidad" : "Días necesarios"}
+        </Form.Label>
 
-export default function Form2() {
-
-    return (
-        <div>
-                <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="text" placeholder="Enter email" name="form2"/>
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
-                </Form.Group>
-                <Form.Group controlId="formBasicEmail3">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="password" placeholder="Enter email" name="formmmmm"/>
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
-                </Form.Group>
-        </div >
-    )
-
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              {horario.map((e) => {
+                return <th key={e}>{e}</th>;
+              })}
+            </tr>
+          </thead>
+          <tbody>
+          {days.map((day) => {
+            return (
+              <tr>
+                <th>{day}</th>
+                {horario.map((hour) => {
+                  return (
+                    <th>
+                      <Form.Check
+                        type="checkbox"
+                        value={day + hour}
+                        name="horario"
+                        id={day + hour}
+                        key={day + hour}
+                      />
+                    </th>
+                  );
+                })}
+              </tr>
+            );
+          })}
+         </tbody>
+        </table>
+      </Form.Group>
+      <Form.Group controlId="precio">
+        <Form.Label>Precio por hora</Form.Label>
+        <Form.Control type="text" placeholder="Precio" name="precio" />
+      </Form.Group>
+      <Form.Group controlId="precio">
+        <Form.Label>Precio por hora</Form.Label>
+        <Form.Control type="text" placeholder="Precio" name="precio" />
+      </Form.Group>
+      <style jsx>{`
+        table {
+          text-align: center;
+          margin: auto;
+        }
+      `}</style>
+    </>
+  );
 }

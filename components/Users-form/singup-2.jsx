@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default function Form2(props) {
   const days = ["Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"];
   const horario = ["Mañana", "Tarde", "Noche"];
+  const exp = ["Bebes", "Niños", "Adolescentes"];
   return (
     <>
       {" "}
@@ -27,6 +28,7 @@ export default function Form2(props) {
             value="progenitor"
             name="tipoUser"
             id="progenitor"
+            required
           />
         </Form.Group>
       </Form.Row>
@@ -45,36 +47,40 @@ export default function Form2(props) {
             </tr>
           </thead>
           <tbody>
-          {days.map((day) => {
-            return (
-              <tr>
-                <th>{day}</th>
-                {horario.map((hour) => {
-                  return (
-                    <th>
-                      <Form.Check
-                        type="checkbox"
-                        value={day + hour}
-                        name="horario"
-                        id={day + hour}
-                        key={day + hour}
-                      />
-                    </th>
-                  );
-                })}
-              </tr>
-            );
-          })}
-         </tbody>
+            {days.map((day) => {
+              return (
+                <tr>
+                  <th>{day}</th>
+                  {horario.map((hour) => {
+                    return (
+                      <th>
+                        <Form.Check
+                          type="checkbox"
+                          value={day + hour}
+                          name="horario"
+                          id={day + hour}
+                          key={day + hour}
+                        />
+                      </th>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </Form.Group>
       <Form.Group controlId="precio">
         <Form.Label>Precio por hora</Form.Label>
-        <Form.Control type="text" placeholder="Precio" name="precio" />
+        <Form.Control type="text" placeholder="Precio" name="precio" required />
       </Form.Group>
-      <Form.Group controlId="precio">
-        <Form.Label>Precio por hora</Form.Label>
-        <Form.Control type="text" placeholder="Precio" name="precio" />
+      <Form.Group controlId="experiencia">
+        <Form.Label>Experiencia</Form.Label>
+        <Form.Row>
+          {exp.map( e => {
+              return <Form.Check type="checkbox" value={e} key={e} name="experiencia" id={e} label={e}/>
+          })}
+        </Form.Row>
       </Form.Group>
       <style jsx>{`
         table {

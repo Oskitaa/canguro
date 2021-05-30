@@ -1,10 +1,10 @@
-import { Form } from "react-bootstrap";
+import { Form ,Row} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from "react";
 
 export default function Form3() {
   const [provincia, setProvincia] = useState([]);
-  const exp = ["Bebes", "Niños", "Adolescentes"];
+  
   const url =
     "https://public.opendatasoft.com/api/records/1.0/search/?dataset=provincias-espanolas&q=&sort=provincia&facet=provincia";
   const getPro = () => {
@@ -25,15 +25,18 @@ export default function Form3() {
     <>
       <Form.Group controlId="description">
         <Form.Label>Descripción</Form.Label>
-        <Form.Control as="textarea" rows={5} name="description" />
+        <Form.Control as="textarea" rows={5} name="descripcion" required/>
       </Form.Group>
       <Form.Group controlId="domicilio">
         <Form.Label>Domicilio</Form.Label>
-        <Form.Control type="text" placeholder="Domicilio" name="domicilio" />
+        <Form.Control type="text" placeholder="Domicilio" name="domicilio" required/>
+        <Form.Control.Feedback type="invalid">
+              Tienes que aceptar los Términos y condiciones
+            </Form.Control.Feedback>
       </Form.Group>
       <Form.Group controlId="prinvincia">
         <Form.Label>Provincia</Form.Label>
-        <Form.Control as="select" placeholder="Provincia" name="provincia">
+        <Form.Control as="select" placeholder="Provincia" name="provincia" required>
           {provincia.map((e) => {
             return (
               <option value={e.path} key={e.path}>
@@ -42,15 +45,32 @@ export default function Form3() {
             );
           })}
         </Form.Control>
+        
       </Form.Group>
-      <Form.Group controlId="experiencia">
-        <Form.Label>Experiencia</Form.Label>
-        <Form.Row>
-          {exp.map( e => {
-              return <Form.Check type="checkbox" value={e} key={e} name="experiencia" id={e} label={e}/>
-          })}
-        </Form.Row>
+
+      <Form.Group>
+        <Form.File
+              type="file"
+              name="foto"
+              key="foto"
+              id="foto"
+              label="Foto de perfil"
+              custom
+              required
+          />
       </Form.Group>
+      <Form.Group controlId="terminos">
+        <Form.Check
+          type="checkbox"
+          label="Acepto los terminos y condiciones"
+          name="terminos"
+          id="terminos"
+          key="terminos"
+          required
+        />
+      
+      </Form.Group>
+      
       <style type="text/css">{`
                         textarea {
                             resize: none;

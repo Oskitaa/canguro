@@ -1,20 +1,21 @@
 export default function Bottom(){
     return(
-        <>
+        <div className="footer">
             <h1>Bottom</h1>
 
 
-            <style jsx>{`
+            <style type="text/css">{`
 
-                h1{
+                .footer{
                     text-align:center;
                     border: 1px solid red;
-                    position:absolute;
-                    width:100%;
-                    bottom:0;
+                    position: relative;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
                 }
 
             `}</style>
-        </>
+        </div>
     )
 }

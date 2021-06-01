@@ -8,9 +8,12 @@ const firebaseConfig = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_CONFIG);
 !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();
 
 export const auth = firebase.auth();
+
 export const db = firebase.firestore();
+
 export const log = (email, password) =>
   auth.signInWithEmailAndPassword(email, password);
+  
 export const onAuthStateChanged = (onChange) => {
   return firebase.auth().onAuthStateChanged((user) => {
     onChange(user);
@@ -24,6 +27,7 @@ export const singUp = async (user) => {
   const { uid } = auth.currentUser;
   const photoURL = await uploadImage(user.file, uid);
   await db.collection("users").doc(uid).set({
+    uid,
     nombre: user.displayName,
     apellido: user.surname,
     fecha_nacimiento: user.fecha_nacimiento,

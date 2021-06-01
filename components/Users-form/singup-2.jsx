@@ -75,10 +75,22 @@ export default function Form2(props) {
         <Form.Control type="text" placeholder="Precio" name="precio" required />
       </Form.Group>
       <Form.Group controlId="experiencia">
-        <Form.Label>Experiencia</Form.Label>
+        <Form.Label>
+          {" "}
+          {props.tipoUser === "canguro" ? "Experiencia :" : "Tengo : "}
+        </Form.Label>
         <Form.Row>
-          {exp.map( e => {
-              return <Form.Check type="checkbox" value={e} key={e} name="experiencia" id={e} label={e}/>
+          {exp.map((e) => {
+            return (
+              <Form.Check
+                type="checkbox"
+                value={e}
+                key={e}
+                name="experiencia"
+                id={e}
+                label={e}
+              />
+            );
           })}
         </Form.Row>
       </Form.Group>

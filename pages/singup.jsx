@@ -13,10 +13,6 @@ export default function Singup() {
   const [tipoUser, setTipoUser] = useState(undefined);
   const [parte, setParte] = useState(1);
 
-  useEffect(() => {
-    console.log(tipoUser);
-  }, [tipoUser]);
-
   const onSubmit = (event) => {
     const form = event.currentTarget;
     event.preventDefault();

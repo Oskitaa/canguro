@@ -1,12 +1,9 @@
-import Button from "react-bootstrap/Button";
 import { Form, Col } from "react-bootstrap";
-
+import {days, horario, exp} from "/constant/forms"
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Form2(props) {
-  const days = ["Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"];
-  const horario = ["Mañana", "Tarde", "Noche"];
-  const exp = ["Bebes", "Niños", "Adolescentes"];
+  
   return (
     <>
       {" "}

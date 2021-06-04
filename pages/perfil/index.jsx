@@ -8,10 +8,9 @@ export default function Perfil(){
     const router = useRouter()
 
     useLayoutEffect(() => {
-        user && router.push("/");
+        user && router.replace("/");
     }, [])
 
-    console.log("user", user)
     return(
         <>  {user &&(
             <h1>Estas en el perfil de {user.displayName}</h1>

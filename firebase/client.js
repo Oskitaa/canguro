@@ -48,14 +48,28 @@ export const singUp = async (user) => {
   await auth.currentUser.sendEmailVerification();
 };
 
-export const createPost = (uid,data) =>{
-  return db.collection("posts").add({
-    uid,
-    disponibilidad : data.disponible,
-    precio : data.precio,
-
+export const crearOferta = async (uid_ofertante,uid_demandante,data) =>{
+  return db.collection("ofertas").add({
+    uid_ofertante,
+    uid_demandante,
+    ...data
   })
 } 
+export const obtenerPersona = async (uid) =>{
+  return await db.collection("users").doc(uid).get()
+}
+
+export const obtenerOfertaDemandante = async (uid) =>{
+  return await db.collection("ofertas").where("uid_demandante", "==", uid).get()
+}
+
+export const obtenerOfertaOfertante = async (uid) =>{
+  return await  db.collection("ofertas").where("uid_ofertante", "==", uid).where("estado" ,"==", "enviado").get()
+}
+
+export const cambiarEstado = (id,estado) => {
+  return db.collection("ofertas").doc(id).update({estado})
+}
 
 export const uploadImage = async (file, uid) => {
   const ref = firebase.storage().ref(`images/${uid}/${file.name}`);
@@ -67,12 +81,4 @@ export const uploadImage = async (file, uid) => {
     .then((downloadURL) => {
       return downloadURL;
     });
-};
-
-export const test = () => {
- db.collection("test").add(
-   {
-     prueba : "test"
-   }
- )
 };

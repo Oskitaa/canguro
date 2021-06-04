@@ -13,7 +13,6 @@ export default function Login() {
         const { email, password } = event.target
         form.checkValidity() && log(email.value, password.value)
         setValidated(true)
-        console.log(validated)
         router.push("/")
     }
 

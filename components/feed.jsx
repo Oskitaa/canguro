@@ -66,7 +66,7 @@ export default function Feed() {
         .feed-container:hover {
           border-bottom-color: #59bec9;
         }
-        img {
+        .feed-foto img {
           height: 150px;
           width: 150px;
           border-radius: 10px;

@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
         <title>{Component.name}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous"></link>
-        <meta property="og:description" content="Sean Connery found fame and fortune as the suave, sophisticated British agent, James Bond."/>
+        <meta property="og:description" content="Encuentra a tu canguro ideal en tan solo 3 minutos!"/>
         <meta property="og:site_name" content="CangurApp" />
         <meta property="og:image" content={logo} />
         <meta property="og:image:secure_url" content={logo} />

@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }) {
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="400" />
         <meta property="og:image:height" content="300" />
-        <meta property="og:image:alt" content="Imagen del logp" />
+        <meta property="og:image:alt" content="Imagen del logo" />
       </Head>
       <Menu />
       <Component {...pageProps} />

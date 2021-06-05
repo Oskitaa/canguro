@@ -1,20 +1,15 @@
-import { useLayoutEffect } from 'react';
-import useUser , { USER_STATES } from '/hooks/useUser'
+import { useLayoutEffect } from "react";
+import useUser from "/hooks/useUser";
 import { useRouter } from "next/router";
+import MostrarPerfil from "/components/mostrarPerfil";
 
+export default function Perfil() {
+  const user = useUser();
+  const router = useRouter();
 
-export default function Perfil(){
-    const user = useUser()
-    const router = useRouter()
+  useLayoutEffect(() => {
+    user === null && router.replace("/");
+  }, []);
 
-    useLayoutEffect(() => {
-       
-    }, [])
-
-    return(
-        <>  {user &&(
-            <h1>Estas en el perfil de {user.displayName}</h1>
-            )}
-        </>
-    )
+  return <MostrarPerfil uid={user?.uid} />;
 }

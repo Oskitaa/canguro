@@ -20,6 +20,12 @@ export const onAuthStateChanged = (onChange) => {
   });
 };
 
+export const forgotPasswordd = async email => {
+  return await auth.sendPasswordResetEmail(email)
+  .catch(err => {return err})
+}
+
+
 export const singUp = async (user) => {
   await firebase
     .auth()

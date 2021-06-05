@@ -1,8 +1,7 @@
 import {
-  obtenerOfertaDemandante,
-  obtenerOfertaOfertante,
   obtenerPersona,
   cambiarEstado,
+  db,
 } from "/firebase/client";
 import useUser from "/hooks/useUser";
 import { useEffect, useState } from "react";
@@ -13,38 +12,53 @@ export default function Ofertas() {
   const user = useUser();
   const router = useRouter();
 
-  const [tipoUser, setTipoUser] = useState(undefined);
+  const [tipoUser, setTipoUser] = useState("enviadas");
   const [ofertas, setOfertas] = useState();
   const [pepe, setPepe] = useState([]);
-  const [visible, setvisible] = useState(null)
+
   const arrayPersonas = () => {
-    ofertas.docs.forEach((e) => {
-      obtenerPersona(e.data().uid_ofertante).then((el) => {
-        setPepe((p) => p.concat(el.data()));
-      });
+    setPepe([]);
+    Array.from(ofertas).forEach((e) => {
+      tipoUser == "enviadas"
+        ? obtenerPersona(e.uid_ofertante).then((el) => {
+            setPepe((p) => p.concat(el.data()));
+          })
+        : obtenerPersona(e.uid_demandante).then((el) => {
+            setPepe((p) => p.concat(el.data()));
+          });
     });
   };
-
-  useEffect(async () => {
-    user &&
-      tipoUser &&
-      (tipoUser?.target.value == "enviadas"
-        ? setOfertas(await obtenerOfertaDemandante(user?.uid))
-        : setOfertas(await obtenerOfertaOfertante(user?.uid)));
-  }, [user, tipoUser]);
-
+  const observador = ()=>{
+    let tipo = tipoUser == "enviadas" ? "uid_demandante" : "uid_ofertante"
+    db
+      .collection("ofertas")
+      .where(tipo, "==", user?.uid)
+      .onSnapshot((querySnapshot) => {
+        var cities = [];
+        querySnapshot.forEach((doc) => {
+          if(tipoUser == "recibidas" && doc.data().estado != "enviado")
+            return
+          cities.push({id : doc.id,...doc.data()});
+        });
+        if(!ofertas || JSON.stringify(ofertas) != JSON.stringify(cities))
+            setOfertas(cities)
+      });
+    }
   useEffect(() => {
-    ofertas && arrayPersonas();
-  }, [ofertas]);
-
-  useEffect(async () => {
-    user && setOfertas(await obtenerOfertaDemandante(user?.uid));
-  }, [user]);
+    user === null && router.replace("/")
+    user && ofertas && arrayPersonas();
+    user && observador()
+  }, [user, ofertas,tipoUser]);
 
   return (
     <>
       <Container>
-        <Form.Group as={Col} onChange={setTipoUser}>
+        <Form.Group
+          as={Col}
+          onChange={(e) => {
+            setTipoUser(e.target.value);
+          }}
+        >
           <Row>
             <Form.Check
               type="radio"
@@ -66,32 +80,45 @@ export default function Ofertas() {
       </Container>
       <Container>
         {ofertas &&
-          ofertas.docs.map((doc, i) => {
-            
+          Array.from(ofertas).map((doc) => {
+            var pepe2 =
+              tipoUser == "enviadas"
+                ? pepe.filter((e) => e.uid == doc.uid_ofertante)
+                : pepe.filter((e) => e.uid == doc.uid_demandante);
+      
             return (
               <Row md="auto">
                 <Col>
-                  <img src={pepe[i]?.photoURL} alt="" />
+                  <img src={pepe2[0]?.photoURL} alt="" />
                 </Col>
                 <Col>
-                  <p>{pepe[i]?.nombre}</p>
+                  <p>{pepe2[0]?.nombre}</p>
                 </Col>
-                <Col hidden={tipoUser?.target.value == "recibidas"}>
-                  <p>{doc.data().estado}</p>
-                </Col>
-                <Col>
-                  <p>{doc.data().disponible}</p>
+                <Col hidden={tipoUser == "recibidas"}>
+                  <p>{doc.estado}</p>
                 </Col>
                 <Col>
-                  <p className="descripcion">{doc.data().disponible}</p>
+                  <p>{doc.disponible}</p>
                 </Col>
-                {tipoUser?.target.value == "recibidas" && <div>
-                <Button variant="primary" onClick={()=>cambiarEstado(doc.id,"aceptado")}>Aceptar</Button>
-                <Button variant="danger" onClick={()=>cambiarEstado(doc.id,"rechazado")} >Rechazar</Button>
-                </div>
-                }
-          
-                
+                <Col>
+                  <p className="descripcion">{doc?.descripcion}</p>
+                </Col>
+                {tipoUser == "recibidas" && (
+                  <div>
+                    <Button
+                      variant="primary"
+                      onClick={() => cambiarEstado(doc.id, "aceptado")}
+                    >
+                      Aceptar
+                    </Button>
+                    <Button
+                      variant="danger"
+                      onClick={() => cambiarEstado(doc.id, "rechazado")}
+                    >
+                      Rechazar
+                    </Button>
+                  </div>
+                )}
               </Row>
             );
           })}
@@ -106,7 +133,7 @@ export default function Ofertas() {
         .row{
           padding:1em;
           margin:auto 2%;
-
+          border-bottom: 1px solid;
         }
         .col{
           margin:auto;

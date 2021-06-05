@@ -5,6 +5,7 @@ import { Container, Image, Row, Button } from "react-bootstrap";
 import { Edad } from "/components/utils/utils";
 import { days, horario, exp } from "/constant/forms";
 import Oferta from "/components/oferta.jsx/oferta";
+import useUser from "/hooks/useUser";
 
 export default function Perfil() {
   const router = useRouter();
@@ -98,13 +99,21 @@ export default function Perfil() {
 
       <Container className="perfil-precio">
         <p className="mr-auto">{user?.precio} €/hora</p>
-        <Button variant="secondary" size="lg" onClick={changeVisibility}>
-          Enviar una ofertar
-        </Button>
+        {useUser() === null ? 
+          <p>Inicie sesión o registrese</p>
+        : 
+          <Button variant="secondary" size="lg" onClick={changeVisibility}>
+            Enviar una oferta
+          </Button>
+        }
       </Container>
       <div className="perfil-modal" hidden={visible}>
         <div className="background-oferta"></div>
-        <Oferta userPerfil={user} visible={changeVisibility} className="oferta"/>
+        <Oferta
+          userPerfil={user}
+          visible={changeVisibility}
+          className="oferta"
+        />
       </div>
 
       <style type="text/css">{`
@@ -171,6 +180,7 @@ export default function Perfil() {
 
       }
       .perfil-precio p{
+        margin:auto;
         font-size:1em;
       }
 
@@ -187,20 +197,30 @@ export default function Perfil() {
       }
 
       .perfil-modal{
-        position:absolute;
+        position:sticky;
         top:0;
         bottom:0;
         width:100%;
         height:100vh;
-       
+        z-index:5;
       }
-      .background-oferta"{
+      .background-oferta{
         background: white;
         opacity:0.7;
+        width: 100%;
+        height: 100%;
       }
 
       .oferta{
         position:sticky;
+      }
+
+      .modal-dialog{
+        position:absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
       }
         `}</style>
     </>

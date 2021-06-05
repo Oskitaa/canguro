@@ -8,7 +8,7 @@ export default function Perfil(){
     const router = useRouter()
 
     useLayoutEffect(() => {
-        user && router.replace("/");
+       
     }, [])
 
     return(

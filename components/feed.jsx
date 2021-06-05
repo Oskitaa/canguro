@@ -50,9 +50,9 @@ export default function Feed() {
       })}
 
       <style jsx>{`
-        h1{
-          text-align:center;
-          margin-top:20px;
+        h1 {
+          text-align: center;
+          margin-top: 20px;
         }
         .feed-container {
           display: flex;
@@ -75,7 +75,6 @@ export default function Feed() {
           font-size: 1.3em;
           margin-bottom: 0;
         }
-       
 
         .feed-provincia {
           font-size: 0.7em;

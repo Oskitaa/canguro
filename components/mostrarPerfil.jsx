@@ -46,18 +46,21 @@ export default function MostrarPerfil(props) {
 
   return (
     <>
-      {user && (
         <Head>
-          <meta property="og:description" content={user.descripcion} />
+          <meta property="og:description" content={user?.descripcion} />
           <meta property="og:site_name" content="CangurApp" />
-          <meta property="og:image" content={user.photoURL} />
+          <meta property="og:image" content={user?.photoURL} />
           <meta property="og:image:secure_url" content={user?.photoURL} />
           <meta property="og:image:type" content="image/png" />
           <meta property="og:image:width" content="400" />
           <meta property="og:image:height" content="300" />
           <meta property="og:image:alt" content="Imagen del logo" />
+
+          <link href="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css" rel="stylesheet"></link>
+          <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+          <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css"></link>
         </Head>
-      )}
+        
       <Container className="perfil-foto">
         <div className="background"></div>
         <Row>

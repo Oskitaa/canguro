@@ -57,8 +57,6 @@ export const singUp = async (user) => {
 export const updatePerfil = async (user) =>{
   const { uid } = auth.currentUser;
   const photoURL = user.file ? await uploadImage(user.file, uid) : auth.currentUser.photoURL;
-  console.log(user)
-
   const email = user.email ? user.email : auth.currentUser.email
   await db.collection("users").doc(uid).update({
     uid,

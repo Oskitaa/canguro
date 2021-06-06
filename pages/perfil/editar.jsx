@@ -11,7 +11,6 @@ export default function Editar() {
  
   useEffect( async () => {
     user && setInfo(await obtenerPersona(user.uid))
-    console.log(info)
   }, [user]);
 
   return <>

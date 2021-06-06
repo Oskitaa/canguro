@@ -4,11 +4,13 @@ import { Container, Image, Row, Button } from "react-bootstrap";
 import { Edad } from "/components/utils/utils";
 import { days, horario, exp } from "/constant/forms";
 import Oferta from "/components/oferta.jsx/oferta";
-import useUser from "/hooks/useUser";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import Link  from "next/link"
 
 export default function MostrarPerfil(props) {
   const uid = props.uid;
+  const router = useRouter()
   const [user, setUser] = useState({});
   const [visible, serVisible] = useState(true);
 
@@ -20,16 +22,17 @@ export default function MostrarPerfil(props) {
 
   return (
     <>
-      <Head>
-        <meta property="og:description" content={user?.descripcion} />
+      {user && <Head>
+        <meta property="og:description" content={user.descripcion} />
         <meta property="og:site_name" content="CangurApp" />
-        <meta property="og:image" content={user?.photoURL} />
+        <meta property="og:image" content={user.photoURL} />
         <meta property="og:image:secure_url" content={user?.photoURL} />
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="400" />
         <meta property="og:image:height" content="300" />
         <meta property="og:image:alt" content="Imagen del logo" />
       </Head>
+      }
       <Container className="perfil-foto">
         <div className="background"></div>
         <Row>
@@ -102,14 +105,11 @@ export default function MostrarPerfil(props) {
       </Container>
 
       <Container className="perfil-precio">
-        <p className="mr-auto">{user?.precio} €/hora</p>
-        {useUser() === null ? (
-          <p>Inicie sesión o registrese</p>
-        ) : (
-          <Button variant="secondary" size="lg" onClick={changeVisibility}>
-            Enviar una oferta
-          </Button>
-        )}
+        <p className="mr-auto" hidden={props.mio}>{user?.precio} €/hora</p>
+        <Button variant="secondary" size="lg" onClick={changeVisibility} hidden={props.mio}>
+          Enviar una oferta
+        </Button>
+        <Link href="/perfil/editar"><a className="btn btn-primary" hidden={!props.mio}>Editar</a></Link>
       </Container>
       <div className="perfil-modal" hidden={visible}>
         <div className="background-oferta"></div>
@@ -225,6 +225,10 @@ export default function MostrarPerfil(props) {
         bottom:0;
         right:0;
         left:0;
+      }
+
+      .perfil-precio .btn:last-child{
+        width: 100%;
       }
         `}</style>
     </>

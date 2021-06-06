@@ -14,3 +14,9 @@ export const Edad = (FechaNacimiento) => {
 
   return edad;
 };
+
+
+export const formaterDate = (date) =>{
+  var newDate = date.split("-")
+  return `${newDate[0]}-${newDate[1]}-${newDate[2]}`
+}

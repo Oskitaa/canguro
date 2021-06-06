@@ -18,6 +18,8 @@ export default function Form2(props) {
             name="tipoUser"
             value="canguro"
             id="canguro"
+            defaultChecked={props?.info?.tipo == "canguro"}
+            required
           />
           <Form.Check
             type="radio"
@@ -25,6 +27,7 @@ export default function Form2(props) {
             value="progenitor"
             name="tipoUser"
             id="progenitor"
+            defaultChecked={props?.info?.tipo == "progenitor"}
             required
           />
         </Form.Group>
@@ -57,6 +60,9 @@ export default function Form2(props) {
                           name="horario"
                           id={day + hour}
                           key={day + hour}
+                          defaultChecked={props?.info?.horario?.includes(day+hour)}
+
+                          
                         />
                       </th>
                     );
@@ -69,7 +75,7 @@ export default function Form2(props) {
       </Form.Group>
       <Form.Group controlId="precio">
         <Form.Label>Precio por hora</Form.Label>
-        <Form.Control type="text" placeholder="Precio" name="precio" required />
+        <Form.Control type="text" placeholder="Precio" name="precio" defaultValue={props?.info?.precio} required />
       </Form.Group>
       <Form.Group controlId="experiencia">
         <Form.Label>
@@ -79,6 +85,7 @@ export default function Form2(props) {
         <Form.Row>
           {exp.map((e) => {
             return (
+              <Col>
               <Form.Check
                 type="checkbox"
                 value={e}
@@ -86,7 +93,9 @@ export default function Form2(props) {
                 name="experiencia"
                 id={e}
                 label={e}
+                defaultChecked={props?.info?.experiencia?.includes(e)}
               />
+              </Col>
             );
           })}
         </Form.Row>

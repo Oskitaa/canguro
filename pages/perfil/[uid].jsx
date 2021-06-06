@@ -5,5 +5,5 @@ export default function Perfil() {
   const router = useRouter();
   const { uid } = router.query;
 
-  return <MostrarPerfil uid={uid} />;
+  return <MostrarPerfil uid={uid}/>;
 }

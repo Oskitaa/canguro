@@ -11,5 +11,5 @@ export default function Perfil() {
       user === null && router.replace("/")
   }, []);
 
-  return <MostrarPerfil uid={user?.uid} />;
+  return <MostrarPerfil uid={user?.uid} mio={true} />;
 }

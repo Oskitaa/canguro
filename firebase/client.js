@@ -25,7 +25,6 @@ export const forgotPasswordd = async email => {
   .catch(err => {return err})
 }
 
-
 export const singUp = async (user) => {
   await firebase
     .auth()
@@ -54,6 +53,32 @@ export const singUp = async (user) => {
   await auth.currentUser.sendEmailVerification();
 };
 
+export const updatePerfil = async (user) =>{
+  const { uid } = auth.currentUser;
+  const photoURL = user.photoURL ? await uploadImage(user.file, uid) : auth.currentUser.photoURL;
+  const email = user.email ? user.email : auth.currentUser.email
+  await db.collection("users").doc(uid).update({
+    uid,
+    nombre: user.displayName,
+    apellido: user.surname,
+    fecha_nacimiento: user.fecha_nacimiento,
+    tipo: user.tipo,
+    horario: user.horario,
+    precio: user.precio,
+    experiencia: user.experiencia,
+    descripcion: user.descripcion,
+    domicilio: user.domicilio,
+    provincia: user.provincia,
+    terminos: user.terminos,
+    photoURL: photoURL,
+  });
+  await auth.currentUser.updateProfile({
+    email,
+    displayName: user.displayName,
+    photoURL: photoURL,
+  });
+}
+
 export const crearOferta = async (uid_ofertante,uid_demandante,data) =>{
   return db.collection("ofertas").add({
     uid_ofertante,
@@ -63,14 +88,6 @@ export const crearOferta = async (uid_ofertante,uid_demandante,data) =>{
 } 
 export const obtenerPersona = async (uid) =>{
   return await db.collection("users").doc(uid).get()
-}
-
-export const obtenerOfertaDemandante = async (uid) =>{
-  return await db.collection("ofertas").where("uid_demandante", "==", uid).get()
-}
-
-export const obtenerOfertaOfertante = async (uid) =>{
-  return await  db.collection("ofertas").where("uid_ofertante", "==", uid).where("estado" ,"==", "enviado").get()
 }
 
 export const cambiarEstado = (id,estado) => {

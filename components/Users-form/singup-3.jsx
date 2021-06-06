@@ -41,7 +41,9 @@ export default function Form3(props) {
           name="domicilio"
           defaultValue={props?.info?.domicilio}
           required
+          minLength={10}
         />
+        <Form.Control.Feedback type="invalid">Minimo 10 caracteres.</Form.Control.Feedback>
       </Form.Group>
       <Form.Group controlId="prinvincia">
         <Form.Label>Provincia</Form.Label>

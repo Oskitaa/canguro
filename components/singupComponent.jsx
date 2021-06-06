@@ -4,7 +4,7 @@ import Form1 from "/components/Users-form/singup-1";
 import Form3 from "/components/Users-form/singup-3";
 import { useRouter } from "next/router";
 import { Form, Button, Col } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { singUp , updatePerfil} from "/firebase/client";
 
 export default function SingupComponent(props) {
@@ -61,7 +61,7 @@ export default function SingupComponent(props) {
           precio: precio.value,
           experiencia: experiencia2,
           descripcion: descripcion.value,
-          domicilio: domicilio.value,
+          domicilio: domicilio.value.replace("/", " ").replace(" , ", " "),
           provincia: provincia.value,
           file: foto.files[0],
           terminos: terminos.value,
@@ -78,26 +78,11 @@ export default function SingupComponent(props) {
             precio: precio.value,
             experiencia: experiencia2,
             descripcion: descripcion.value,
-            domicilio: domicilio.value,
+            domicilio: domicilio.value.replace("/", " ").replace(",", " "),
             provincia: provincia.value,
             file: foto.files[0] || null,
             terminos: terminos.value,
           }) 
-
-          console.log(nombre.value,
-            apellido.value,
-            email.value,
-            password.value,
-            fecha.value,
-            tipoUser,
-            experiencia2,
-            horario2,
-            precio.value,
-            descripcion.value,
-            domicilio.value,
-            provincia.value,
-            terminos.value)
-
         router.push("/");
       }
     

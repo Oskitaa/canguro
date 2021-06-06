@@ -1,40 +1,45 @@
 import { useEffect, useState } from "react";
 import { obtenerPersona } from "/firebase/client";
-import { Container, Image, Row, Button } from "react-bootstrap";
+import { Container, Image, Row, Button, Col } from "react-bootstrap";
 import { Edad } from "/components/utils/utils";
 import { days, horario, exp } from "/constant/forms";
 import Oferta from "/components/oferta.jsx/oferta";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import mapboxgl from "!mapbox-gl";
 import { useRef } from "react";
+import { url, token } from "/constant/mapa";
 
 export default function MostrarPerfil(props) {
   const uid = props.uid;
-  const router = useRouter();
   const [user, setUser] = useState({});
   const [visible, serVisible] = useState(true);
 
   const changeVisibility = () => serVisible(!visible);
 
-  mapboxgl.accessToken =
-    "pk.eyJ1Ijoib3NraXRhYTk4IiwiYSI6ImNraXUza3MwajA3cG0zMG56dWdua3huajMifQ.t36zGbrqWqKnlAXGVR2gww";
+  mapboxgl.accessToken = token;
 
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-70.9);
-  const [lat, setLat] = useState(42.35);
-  const [zoom, setZoom] = useState(9);
   useEffect(() => {
+    user &&
+      fetch(`${url}${user?.domicilio}.json?access_token=${token}`)
+        .then((e) => e.json())
+        .then((e) => {
+          map.current = new mapboxgl.Map({
+            container: mapContainer.current,
+            style: "mapbox://styles/mapbox/streets-v11",
+            center: e?.features ? [e?.features[0].center[0], e?.features[0].center[1]] : [0,0],
+            zoom: 18,
+          });
+          new mapboxgl.Marker()
+            .setLngLat(e?.features ? [e?.features[0].center[0], e?.features[0].center[1] ] : [0,0])
+            .addTo(map.current);
+        });
+
     if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [lng, lat],
-      zoom: zoom,
-    });
-  });
+  }, [map, user]);
+
   useEffect(async () => {
     obtenerPersona(uid).then((e) => setUser(e.data()));
   }, [uid]);
@@ -57,9 +62,13 @@ export default function MostrarPerfil(props) {
         <div className="background"></div>
         <Row>
           <Image src={user?.photoURL} rounded />
+          <Col>
           <p>
             {user?.nombre} • {Edad(user?.fecha_nacimiento)}
           </p>
+          <p className="locate">{user?.tipo} en {user?.provincia}</p>
+</Col>
+         
         </Row>
       </Container>
 
@@ -123,7 +132,9 @@ export default function MostrarPerfil(props) {
           </tbody>
         </table>
       </Container>
-
+      <Container>
+        <div ref={mapContainer} className="map-container" />
+      </Container>
       <Container className="perfil-precio">
         <p className="mr-auto" hidden={props.mio}>
           {user?.precio} €/hora
@@ -150,8 +161,7 @@ export default function MostrarPerfil(props) {
           className="oferta"
         />
       </div>
-<Container>      <div ref={mapContainer} className="map-container" />
-</Container>
+
       <style type="text/css">{`
       .perfil-foto img {
           height: 96px;
@@ -265,6 +275,10 @@ export default function MostrarPerfil(props) {
 
       .map-container{
         height: 400px;
+      }
+
+      .perfil-foto .row .locate{
+        font-size: 0.7em;
       }
         `}</style>
     </>

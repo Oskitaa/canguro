@@ -33,6 +33,7 @@ export const singUp = async (user) => {
   const photoURL = await uploadImage(user.file, uid);
   await db.collection("users").doc(uid).set({
     uid,
+    email,
     nombre: user.displayName,
     apellido: user.surname,
     fecha_nacimiento: user.fecha_nacimiento,
@@ -55,10 +56,13 @@ export const singUp = async (user) => {
 
 export const updatePerfil = async (user) =>{
   const { uid } = auth.currentUser;
-  const photoURL = user.photoURL ? await uploadImage(user.file, uid) : auth.currentUser.photoURL;
+  const photoURL = user.file ? await uploadImage(user.file, uid) : auth.currentUser.photoURL;
+  console.log(user)
+
   const email = user.email ? user.email : auth.currentUser.email
   await db.collection("users").doc(uid).update({
     uid,
+    email,
     nombre: user.displayName,
     apellido: user.surname,
     fecha_nacimiento: user.fecha_nacimiento,

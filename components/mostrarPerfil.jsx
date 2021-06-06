@@ -9,6 +9,7 @@ import Link from "next/link";
 import mapboxgl from "!mapbox-gl";
 import { useRef } from "react";
 import { url, token } from "/constant/mapa";
+import useUser from "/hooks/useUser";
 
 export default function MostrarPerfil(props) {
   const uid = props.uid;
@@ -16,6 +17,8 @@ export default function MostrarPerfil(props) {
   const [visible, serVisible] = useState(true);
 
   const changeVisibility = () => serVisible(!visible);
+
+ 
 
   mapboxgl.accessToken = token;
 
@@ -138,7 +141,7 @@ export default function MostrarPerfil(props) {
       <Container>
         <div ref={mapContainer} className="map-container" />
       </Container>
-      <Container className="perfil-precio">
+      <Container className="perfil-precio" hidden={!useUser()}>
         <p className="mr-auto" hidden={props.mio}>
           {user?.precio} €/hora
         </p>
@@ -182,6 +185,7 @@ export default function MostrarPerfil(props) {
 
         .perfil-foto .row p{
           margin:auto 1em;
+          margin-left:0;
           font-size:2em;
         }
   
@@ -282,6 +286,8 @@ export default function MostrarPerfil(props) {
 
       .perfil-foto .row .locate{
         font-size: 0.7em;
+        text-transform: uppercase; 
+
       }
         `}</style>
     </>

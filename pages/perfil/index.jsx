@@ -8,8 +8,8 @@ export default function Perfil() {
   const router = useRouter();
 
   useLayoutEffect(() => {
-      user === null && router.replace("/")
-  }, []);
+    user === null && router.replace("/");
+  }, [user]);
 
   return <MostrarPerfil uid={user?.uid} mio={true} />;
 }

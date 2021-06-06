@@ -11,17 +11,15 @@ export default function Feed() {
 
   useEffect(() => {
     const feeds = [];
-    db.collection("users")
-      .get()
-      .then(({ docs }) => {
-        docs.forEach((docs) => {
-          if (user && user.uid === docs.id) {
-            return;
-          }
-          feeds.push(docs.data());
+    if(user === null || user )
+      db.collection("users").where("uid","!=", user?.uid || "")
+        .get()
+        .then(({ docs }) => {
+          docs.forEach((docs) => {
+            feeds.push(docs.data());
+          });
+          setFeed(feeds);
         });
-        setFeed(feeds);
-      });
   }, [user]);
 
   return (

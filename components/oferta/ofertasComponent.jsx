@@ -73,49 +73,51 @@ export default function OfertasComponents() {
         </Form.Group>
       </Container>
       <Container>
-      <Row md="auto">
-        {ofertas &&
-          Array.from(ofertas).map((doc) => {
-            var pepe2 =
-              tipoUser == "enviadas"
-                ? pepe.filter((e) => e.uid == doc.uid_ofertante)
-                : pepe.filter((e) => e.uid == doc.uid_demandante);
+        <Row md="auto">
+          {ofertas &&
+            Array.from(ofertas).map((doc) => {
+              var pepe2 =
+                tipoUser == "enviadas"
+                  ? pepe.filter((e) => e.uid == doc.uid_ofertante)
+                  : pepe.filter((e) => e.uid == doc.uid_demandante);
 
-            return (
-              
+              return (
                 <Col>
-                <Card style={{ width: "18rem" }}>
-                  <Card.Img variant="top" src={pepe2[0]?.photoURL} />
-                  <Card.Body>
-                    <Card.Title>{pepe2[0]?.nombre}</Card.Title>
-                    <Card.Text>
-                      <p hidden={tipoUser == "recibidas"}>Estado : {doc.estado}</p>
-                      <p>Horario : {doc.disponible}</p>
-                      <p className="descripcion">Descripción : {doc?.descripcion}</p>
-                    </Card.Text>
-                    {tipoUser == "recibidas" && (
-                      <div>
-                        <Button
-                          variant="primary"
-                          onClick={() => cambiarEstado(doc.id, "aceptado")}
-                        >
-                          Aceptar
-                        </Button>
-                        <Button
-                          variant="danger"
-                          onClick={() => cambiarEstado(doc.id, "rechazado")}
-                        >
-                          Rechazar
-                        </Button>
-                      </div>
-                    )}
-                  </Card.Body>
-                </Card>
+                  <Card style={{ width: "18rem" }}>
+                    <Card.Img variant="top" src={pepe2[0]?.photoURL} />
+                    <Card.Body>
+                      <Card.Title>{pepe2[0]?.nombre}</Card.Title>
+                      <Card.Text>
+                        <p hidden={tipoUser == "recibidas"}>
+                          Estado : {doc.estado}
+                        </p>
+                        <p>Horario : {doc.disponible}</p>
+                        <p className="descripcion">
+                          Descripción : {doc?.descripcion}
+                        </p>
+                      </Card.Text>
+                      {tipoUser == "recibidas" && (
+                        <div>
+                          <Button
+                            variant="primary"
+                            onClick={() => cambiarEstado(doc.id, "aceptado")}
+                          >
+                            Aceptar
+                          </Button>
+                          <Button
+                            variant="danger"
+                            onClick={() => cambiarEstado(doc.id, "rechazado")}
+                          >
+                            Rechazar
+                          </Button>
+                        </div>
+                      )}
+                    </Card.Body>
+                  </Card>
                 </Col>
-              
-            );
-          })}
-          </Row>
+              );
+            })}
+        </Row>
       </Container>
 
       <style type="text/css">{`
@@ -140,15 +142,16 @@ export default function OfertasComponents() {
             text-overflow: ellipsis;
 
           }
-          .row p,div{
-            margin:auto 2%;
-          }
           .card{
             height:400px;
           }
 
           .card-body{
             overflow:scroll;
+          }
+
+          .form-check:last-child{
+            margin-left:10px;
           }
         `}</style>
     </>

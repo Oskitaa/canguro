@@ -3,7 +3,7 @@ import { obtenerPersona } from "/firebase/client";
 import { Container, Image, Row, Button, Col } from "react-bootstrap";
 import { Edad } from "/components/utils/utils";
 import { days, horario, exp } from "/constant/forms";
-import Oferta from "/components/oferta.jsx/oferta";
+import Oferta from "/components/oferta/enviarOferta";
 import Head from "next/head";
 import Link from "next/link";
 import mapboxgl from "!mapbox-gl";
@@ -18,8 +18,6 @@ export default function MostrarPerfil(props) {
 
   const changeVisibility = () => serVisible(!visible);
 
- 
-
   mapboxgl.accessToken = token;
 
   const mapContainer = useRef(null);
@@ -29,18 +27,26 @@ export default function MostrarPerfil(props) {
       fetch(`${url}${user?.domicilio}.json?access_token=${token}`)
         .then((e) => e.json())
         .then((e) => {
+          const {features} = e
+          const {center} = features
           map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: "mapbox://styles/mapbox/streets-v11",
-            center: e?.features ? [e?.features[0].center[0], e?.features[0].center[1]] : [0,0],
+            center: center
+              ? [center[0], center[1]]
+              : [0, 0],
             zoom: 18,
           });
           new mapboxgl.Marker()
-            .setLngLat(e?.features ? [e?.features[0].center[0], e?.features[0].center[1] ] : [0,0])
+            .setLngLat(
+             center
+                ? [center[0], center[1]]
+                : [0, 0]
+            )
             .addTo(map.current);
         });
 
-    if (map.current) return; // initialize map only once
+    if (map.current) return;
   }, [map, user]);
 
   useEffect(async () => {
@@ -49,6 +55,7 @@ export default function MostrarPerfil(props) {
 
   return (
     <>
+      {user !== null &&
         <Head>
           <meta property="og:description" content={user?.descripcion} />
           <meta property="og:site_name" content="CangurApp" />
@@ -58,23 +65,33 @@ export default function MostrarPerfil(props) {
           <meta property="og:image:width" content="400" />
           <meta property="og:image:height" content="300" />
           <meta property="og:image:alt" content="Imagen del logo" />
-
-          <link href="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css" rel="stylesheet"></link>
-          <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
-          <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css"></link>
         </Head>
-        
+      }
+      <Head>
+        <link
+          href="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css"
+          rel="stylesheet"
+        ></link>
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+        <link
+          rel="stylesheet"
+          href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css"
+          type="text/css"
+        ></link>
+      </Head>
+
       <Container className="perfil-foto">
         <div className="background"></div>
         <Row>
           <Image src={user?.photoURL} rounded />
           <Col>
-          <p>
-            {user?.nombre} • {Edad(user?.fecha_nacimiento)}
-          </p>
-          <p className="locate">{user?.tipo} en {user?.provincia}</p>
-</Col>
-         
+            <p>
+              {user?.nombre} • {Edad(user?.fecha_nacimiento)}
+            </p>
+            <p className="locate">
+              {user?.tipo} en {user?.provincia}
+            </p>
+          </Col>
         </Row>
       </Container>
 

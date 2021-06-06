@@ -1,4 +1,4 @@
-import OfertasComponents from "/components/oferta.jsx/ofertasComponent";
+import OfertasComponents from "/components/oferta/ofertasComponent";
 import {useRouter}  from "next/router";
 import  useUser  from "/hooks/useUser";
 import { useEffect } from "react";

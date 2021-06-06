@@ -33,7 +33,7 @@ export const singUp = async (user) => {
   const photoURL = await uploadImage(user.file, uid);
   await db.collection("users").doc(uid).set({
     uid,
-    email,
+    email : user.email,
     nombre: user.displayName,
     apellido: user.surname,
     fecha_nacimiento: user.fecha_nacimiento,

@@ -48,7 +48,7 @@ export default function SingupComponent(props) {
           .map((e) => {
             return e.value;
           });
-
+          if(horario2.length == 0) return;
           !props?.user ?
         singUp({
           displayName: nombre.value,
@@ -73,7 +73,7 @@ export default function SingupComponent(props) {
             email: email.value,
             password: password.value,
             fecha_nacimiento: fecha.value,
-            tipo: tipoUser ? tipoUser : props.user.tipo,
+            tipo: tipoUser ? tipoUser : props?.user.tipo,
             horario: horario2,
             precio: precio.value,
             experiencia: experiencia2,
@@ -83,7 +83,7 @@ export default function SingupComponent(props) {
             file: foto.files[0] || null,
             terminos: terminos.value,
           }) 
-        router.push("/");
+        router.push("/perfil");
       }
     
   };
@@ -91,17 +91,17 @@ export default function SingupComponent(props) {
   const seltipoUser = (e) => setTipoUser(e.target.value);
   return (
     <div className="container">
-      <h1>{props.user ? "Editar" : "Registarse"}</h1>
+      <h1>{props?.user ? "Editar" : "Registarse"}</h1>
       <div className="dialog">
         <Form noValidate validated={validated} onSubmit={onSubmit}>
           <div className="parte1" hidden={parte != 1}>
-            <Form1 info={props.user}/>
+            <Form1 info={props?.user}/>
           </div>
           <div className="parte2" hidden={parte != 2}>
-            <Form2 seltipoUser={seltipoUser} tipoUser={tipoUser} info={props.user}/>
+            <Form2 seltipoUser={seltipoUser} tipoUser={tipoUser} info={props?.user}/>
           </div>
           <div className="parte3" hidden={parte != 3}>
-            <Form3 info={props.user}/>
+            <Form3 info={props?.user}/>
           </div>
 
           <Form.Group>

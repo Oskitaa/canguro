@@ -3,9 +3,15 @@ import useUser, { USER_STATES } from "/hooks/useUser";
 import { auth } from "/firebase/client";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import {logo} from "/constant/logo"
+import { useEffect } from "react";
 
 export default function Menu() {
   const user = useUser();
+
+useEffect(() => {
+
+}, [user])
+
   return (
     <Navbar bg="light" expand="sm">
       <Navbar.Brand>
@@ -27,7 +33,7 @@ export default function Menu() {
         {user && (
           <Nav>
             <NavDropdown
-              title={`Bienvenido ${user.displayName}`}
+              title={`Bienvenido ${user?.displayName}`}
               id="basic-nav-dropdown"
             >
               <NavDropdown.Item>

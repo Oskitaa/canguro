@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useUser from "/hooks/useUser";
 import { useRouter } from "next/router";
-import AdminComponent from "/component/AdminComponent"
+import AdminComponent from "/components/adminComponent"
 export default function Admin() {
   const user = useUser();
     const router = useRouter()

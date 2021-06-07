@@ -21,17 +21,17 @@ export const onAuthStateChanged = (onChange) => {
 };
 
 export const forgotPasswordd = async email => {
-  return await auth.sendPasswordResetEmail(email)
+  return  auth.sendPasswordResetEmail(email)
   .catch(err => {return err})
 }
 
 export const singUp = async (user) => {
-  await firebase
+   await firebase
     .auth()
     .createUserWithEmailAndPassword(user.email, user.password);
-  const { uid } = auth.currentUser;
-  const photoURL = await uploadImage(user.file, uid);
-  await db.collection("users").doc(uid).set({
+  const { uid } =  auth.currentUser;
+  const photoURL =  await uploadImage(user.file, uid);
+   await db.collection("users").doc(uid).set({
     uid,
     email : user.email,
     nombre: user.displayName,
@@ -47,18 +47,18 @@ export const singUp = async (user) => {
     terminos: user.terminos,
     photoURL: photoURL,
   });
-  await auth.currentUser.updateProfile({
+   auth.currentUser.updateProfile({
     displayName: user.displayName,
     photoURL: photoURL,
   });
-  await auth.currentUser.sendEmailVerification();
+   auth.currentUser.sendEmailVerification();
 };
 
 export const updatePerfil = async (user) =>{
   const { uid } = auth.currentUser;
   const photoURL = user.file ? await uploadImage(user.file, uid) : auth.currentUser.photoURL;
   const email = user.email ? user.email : auth.currentUser.email
-  await db.collection("users").doc(uid).update({
+   await db.collection("users").doc(uid).update({
     uid,
     email,
     nombre: user.displayName,
@@ -74,7 +74,7 @@ export const updatePerfil = async (user) =>{
     terminos: user.terminos,
     photoURL: photoURL,
   });
-  await auth.currentUser.updateProfile({
+   auth.currentUser.updateProfile({
     email,
     displayName: user.displayName,
     photoURL: photoURL,
@@ -89,7 +89,7 @@ export const crearOferta = async (uid_ofertante,uid_demandante,data) =>{
   })
 } 
 export const obtenerPersona = async (uid) =>{
-  return await db.collection("users").doc(uid).get()
+  return  db.collection("users").doc(uid).get()
 }
 
 export const cambiarEstado = (id,estado) => {
@@ -98,7 +98,7 @@ export const cambiarEstado = (id,estado) => {
 
 export const uploadImage = async (file, uid) => {
   const ref = firebase.storage().ref(`images/${uid}/${file.name}`);
-  return await ref
+  return  ref
     .put(file)
     .then((snapshot) => {
       return snapshot.ref.getDownloadURL();
@@ -107,3 +107,16 @@ export const uploadImage = async (file, uid) => {
       return downloadURL;
     });
 };
+
+export const getAllOffers = async () => {
+  return  db.collection("ofertas").get()
+}
+
+export const getAllUsers = async () => {
+  return  db.collection("users").get()
+}
+
+export const deleteDoc = async (doc) => {
+  await db.collection("ofertas").doc(doc).delete()
+  return await getAllOffers()
+}

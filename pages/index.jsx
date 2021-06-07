@@ -1,5 +1,6 @@
 import Head from "next/head";
-import Feed from "/components/feed";
+import Link from "next/link";
+import { Container, Row , Col} from "react-bootstrap";
 import { logo } from "/constant/logo";
 
 export default function Home() {
@@ -15,7 +16,30 @@ export default function Home() {
         <meta property="og:image:height" content="300" />
         <meta property="og:image:alt" content="Imagen del logo" />
       </Head>
-      <Feed />
+      <Container className="principal">
+        <h1>Niñeres con experiencia y referencias</h1>
+        <Row>
+          <Col>
+          <Link href="/progenitor"><a className="btn btn-primary">Soy Canguro</a></Link>
+          <Link href="/canguros"><a className="btn btn-primary">Soy Progenitor</a></Link>
+          </Col>
+        </Row>
+      </Container>
+        
+      <style type="text/css">{`
+        .principal{
+          height:90vh;
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          flex-direction:column;
+          text-align:center;
+
+        }
+          .principal .row .col a{
+              margin-right:10px;
+          }
+      `}</style>
     </>
   );
 }

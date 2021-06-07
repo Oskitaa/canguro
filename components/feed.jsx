@@ -4,15 +4,16 @@ import { Edad } from "/components/utils/utils";
 import useUser from "/hooks/useUser";
 import { useRouter } from "next/router";
 
-export default function Feed() {
+export default function Feed(props) {
   const user = useUser();
   const router = useRouter();
   const [feed, setFeed] = useState([]);
 
   useEffect(() => {
     const feeds = [];
+    console.log(props.tipo)
     if(user === null || user )
-      db.collection("users").where("uid","!=", user?.uid || "")
+      db.collection("users").where("uid","!=", user?.uid || "").where("tipo","==",props.tipo)
         .get()
         .then(({ docs }) => {
           docs.forEach((docs) => {

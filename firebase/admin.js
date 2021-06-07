@@ -1,12 +1,11 @@
-const admin = require("firebase-admin")
+  
+import admin from 'firebase-admin'
+const {credential} = admin;
 
-const serviceAccount = require("./firebase-keys.json")
-
+const serviceAccount = import("/firebase/firebase-keys.json")
 try {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: process.env.FIREBASE_DATABASE_URL,
-  })
+  admin.initializeApp(
+    admin.credential.cert(serviceAccount)
+  )
 } catch (e) {}
 
-export const firestore = admin.firestore()

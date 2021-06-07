@@ -27,22 +27,17 @@ export default function MostrarPerfil(props) {
       fetch(`${url}${user?.domicilio}.json?access_token=${token}`)
         .then((e) => e.json())
         .then((e) => {
-          const {features} = e
-          const {center} = features
+      
+          const { features } = e;
+          const { center } = features[0] || [0,0];
           map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: "mapbox://styles/mapbox/streets-v11",
-            center: center
-              ? [center[0], center[1]]
-              : [0, 0],
+            center: center ? [center[0], center[1]] : [0, 0],
             zoom: 18,
           });
           new mapboxgl.Marker()
-            .setLngLat(
-             center
-                ? [center[0], center[1]]
-                : [0, 0]
-            )
+            .setLngLat(center ? [center[0], center[1]] : [0, 0])
             .addTo(map.current);
         });
 
@@ -55,7 +50,7 @@ export default function MostrarPerfil(props) {
 
   return (
     <>
-      {user !== null &&
+      {user !== null && (
         <Head>
           <meta property="og:description" content={user?.descripcion} />
           <meta property="og:site_name" content="CangurApp" />
@@ -66,7 +61,7 @@ export default function MostrarPerfil(props) {
           <meta property="og:image:height" content="300" />
           <meta property="og:image:alt" content="Imagen del logo" />
         </Head>
-      }
+      )}
       <Head>
         <link
           href="https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css"

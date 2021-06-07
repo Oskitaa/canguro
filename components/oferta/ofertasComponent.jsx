@@ -1,4 +1,9 @@
-import { obtenerPersona, cambiarEstado, db } from "/firebase/client";
+import {
+  obtenerPersona,
+  cambiarEstado,
+  db,
+  borrarOferta,
+} from "/firebase/client";
 import useUser from "/hooks/useUser";
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
@@ -95,6 +100,16 @@ export default function OfertasComponents() {
                         <p className="descripcion">
                           Descripción : {doc?.descripcion}
                         </p>
+                        {tipoUser == "enviadas" && (
+                          <Button
+                            variant="danger"
+                            onClick={() => {
+                              borrarOferta(doc.id);
+                            }}
+                          >
+                            Borrar
+                          </Button>
+                        )}{" "}
                       </Card.Text>
                       {tipoUser == "recibidas" && (
                         <div>

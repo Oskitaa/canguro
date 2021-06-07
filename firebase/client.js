@@ -88,6 +88,12 @@ export const crearOferta = async (uid_ofertante,uid_demandante,data) =>{
     ...data
   })
 } 
+
+export const modificarOferta = async (id,data) =>{
+  return db.collection("ofertas").doc(id).update({
+    ...data
+  })
+} 
 export const obtenerPersona = async (uid) =>{
   return  db.collection("users").doc(uid).get()
 }
@@ -119,4 +125,23 @@ export const getAllUsers = async () => {
 export const deleteDoc = async (doc) => {
   await db.collection("ofertas").doc(doc).delete()
   return await getAllOffers()
+}
+
+export const borrarOferta = async(doc)=>{
+  await db.collection("ofertas").doc(doc).delete()
+}
+
+export const borrarUsuario =async () =>{
+  await db.collection("ofertas").where("uid_demandante","==", auth.currentUser.uid).get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      borrarOferta(doc.id)
+    });
+})
+await db.collection("ofertas").where("uid_ofertante","==", auth.currentUser.uid).get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+        borrarOferta(doc.id)
+  });
+})
+await db.collection("users").doc(auth.currentUser.uid).delete()
+   await auth.currentUser.delete();  
 }

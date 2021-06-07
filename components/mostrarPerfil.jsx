@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { obtenerPersona } from "/firebase/client";
+import { obtenerPersona ,borrarUsuario} from "/firebase/client";
 import { Container, Image, Row, Button, Col } from "react-bootstrap";
 import { Edad } from "/components/utils/utils";
 import { days, horario, exp } from "/constant/forms";
@@ -166,10 +166,18 @@ export default function MostrarPerfil(props) {
           Enviar una oferta
         </Button>
         <Link href="/perfil/editar">
-          <a className="btn btn-primary" hidden={!props.mio}>
+          <a className="btn btn-primary hola" hidden={!props.mio}>
             Editar
           </a>
         </Link>
+        <Button variant="danger hola" hidden={!props.mio} onClick={
+          ()=>{
+          if(confirm("Desea borrar su cuenta?"))
+            borrarUsuario ()
+          }
+        }>
+            Borrar 
+        </Button>
       </Container>
       <div className="perfil-modal" hidden={visible}>
         <div className="background-oferta"></div>
@@ -288,7 +296,7 @@ export default function MostrarPerfil(props) {
         left:0;
       }
 
-      .perfil-precio .btn:last-child{
+      .perfil-precio .hola{
         width: 100%;
       }
 

@@ -11,7 +11,6 @@ export default function Feed(props) {
 
   useEffect(() => {
     const feeds = [];
-    console.log(props.tipo)
     if(user === null || user )
       db.collection("users").where("uid","!=", user?.uid || "").where("tipo","==",props.tipo)
         .get()

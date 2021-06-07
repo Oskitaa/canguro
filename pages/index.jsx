@@ -21,7 +21,7 @@ export default function Home() {
         <Row>
           <Col>
           <Link href="/progenitor"><a className="btn btn-primary">Soy Canguro</a></Link>
-          <Link href="/canguros"><a className="btn btn-primary">Soy Progenitor</a></Link>
+          <Link href="/canguro"><a className="btn btn-primary">Soy Progenitor</a></Link>
           </Col>
         </Row>
       </Container>
